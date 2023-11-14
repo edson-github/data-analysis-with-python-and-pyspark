@@ -25,28 +25,28 @@ import pyspark.sql.types as T
 spark = SparkSession.builder.getOrCreate()
 
 q1 = spark.read.csv(
-    DATA_DIRECTORY + "/drive_stats_2019_Q1", header=True, inferSchema=True
+    f"{DATA_DIRECTORY}/drive_stats_2019_Q1", header=True, inferSchema=True
 )
 
 q1.printSchema()
 
 # %%
 q2 = spark.read.csv(
-    DATA_DIRECTORY + "/data_Q2_2019", header=True, inferSchema=True
+    f"{DATA_DIRECTORY}/data_Q2_2019", header=True, inferSchema=True
 )
 
 q2.printSchema()
 
 # %%
 q3 = spark.read.csv(
-    DATA_DIRECTORY + "/data_Q3_2019", header=True, inferSchema=True
+    f"{DATA_DIRECTORY}/data_Q3_2019", header=True, inferSchema=True
 )
 
 q3.printSchema()
 
 # %%
 q4 = spark.read.csv(
-    DATA_DIRECTORY + "/data_Q4_2019", header=True, inferSchema=True
+    f"{DATA_DIRECTORY}/data_Q4_2019", header=True, inferSchema=True
 )
 
 q4.printSchema()
