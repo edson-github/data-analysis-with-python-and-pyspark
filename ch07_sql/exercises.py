@@ -22,7 +22,7 @@ DATA_FILES = [
 ]
 
 data = [
-    spark.read.csv(DATA_DIRECTORY + "/" + file, header=True, inferSchema=True)
+    spark.read.csv(f"{DATA_DIRECTORY}/{file}", header=True, inferSchema=True)
     for file in DATA_FILES
 ]
 
@@ -30,7 +30,7 @@ common_columns = list(
     reduce(lambda x, y: x.intersection(y), [set(df.columns) for df in data])
 )
 
-assert set(["model", "capacity_bytes", "date", "failure"]).issubset(
+assert {"model", "capacity_bytes", "date", "failure"}.issubset(
     set(common_columns)
 )
 
@@ -50,13 +50,11 @@ def failure_rate(drive_stats):
         .agg(F.count(F.col("*")).alias("failures"))
     )
 
-    answer = (
+    return (
         drive_days.join(failures, on="model", how="inner")
         .withColumn("failure_rate", F.col("failures") / F.col("drive_days"))
         .orderBy(F.col("failure_rate").desc())
     )
-
-    return answer
 
 
 failure_rate(full_data).show(5)

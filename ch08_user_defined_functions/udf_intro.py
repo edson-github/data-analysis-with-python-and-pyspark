@@ -40,9 +40,7 @@ assert py_reduce_fraction((1, 0)) is None
 def py_fraction_to_float(frac: Frac) -> Optional[float]:
     """Transforms a fraction represented as a 2-tuple of integers into a float."""
     num, denom = frac
-    if denom:
-        return num / denom
-    return None
+    return num / denom if denom else None
 
 
 assert py_fraction_to_float((2, 8)) == 0.25
@@ -64,9 +62,7 @@ frac_df.show(20, False)
 def fraction_to_float(frac: Frac) -> Optional[float]:
     """Transforms a fraction represented as a 2-tuple of integers into a float."""
     num, denom = frac
-    if denom:
-        return num / denom
-    return None
+    return num / denom if denom else None
 
 
 frac_df = frac_df.withColumn(

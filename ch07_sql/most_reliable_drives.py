@@ -21,7 +21,7 @@ DATA_FILES = [
 ]
 
 data = [
-    spark.read.csv(DATA_DIRECTORY + "/" + file, header=True, inferSchema=True)
+    spark.read.csv(f"{DATA_DIRECTORY}/{file}", header=True, inferSchema=True)
     for file in DATA_FILES
 ]
 
@@ -29,7 +29,7 @@ common_columns = list(
     reduce(lambda x, y: x.intersection(y), [set(df.columns) for df in data])
 )
 
-assert set(["model", "capacity_bytes", "date", "failure"]).issubset(
+assert {"model", "capacity_bytes", "date", "failure"}.issubset(
     set(common_columns)
 )
 
@@ -94,13 +94,13 @@ def most_reliable_drive_for_capacity(dataframe, capacity_GB=2048, precision=0.25
     capacity_min = capacity_GB * (1 - precision)
     capacity_max = capacity_GB * (1 + precision)
 
-    answer = (
-        dataframe.where(f"capacity_GB between {capacity_min} and {capacity_max}")
+    return (
+        dataframe.where(
+            f"capacity_GB between {capacity_min} and {capacity_max}"
+        )
         .orderBy("failure_rate", "capacity_GB", ascending=[True, False])
         .limit(top_n)
     )
-
-    return answer
 
 # %%
 
